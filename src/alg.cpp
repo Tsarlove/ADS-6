@@ -5,17 +5,17 @@
 #include <stdexcept>
 
 // Простая реализация шаблонного стека
-template<typename T, int size>
+template<typename T, int Size>
 class TStack {
  private:
-  T arr[size];
+  T arr[Size];
   int topIndex;
 
  public:
   TStack() : topIndex(-1) {}
 
   void push(const T& val) {
-    if (topIndex < size - 1) arr[++topIndex] = val;
+    if (topIndex < Size - 1) arr[++topIndex] = val;
   }
 
   void pop() {
@@ -99,10 +99,11 @@ int eval(const std::string& post) {
 }
 
 struct SYM {
-  char ch{};
-  int prior{};
+  char ch;
+  int prior;
 
-  explicit SYM(char c) : ch(c), prior(0) {}
+  SYM() : ch('\0'), prior(0) {}  // Добавлен конструктор по умолчанию
+  SYM(char c) : ch(c), prior(0) {}
   SYM(char c, int p) : ch(c), prior(p) {}
 };
 
@@ -147,5 +148,5 @@ int main() {
   pqueue.push(SYM('b', 7));
   SYM c1 = pqueue.pop();
   SYM c2 = pqueue.pop();
-  return 0;
+  return c1.ch + c2.ch; // используем переменные, чтобы убрать предупреждение
 }
