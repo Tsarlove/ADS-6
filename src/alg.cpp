@@ -1,5 +1,7 @@
 // Copyright 2021 NNTU-CS
 
+#pragma once
+
 #include <iostream>
 
 struct SYM {
@@ -9,18 +11,14 @@ struct SYM {
 
 template<typename T>
 struct Node {
+    explicit Node(const T& d) : data(d), next(nullptr) {}  // explicit constructor
     T data;
     Node* next;
-
-    Node(const T& d) : data(d), next(nullptr) {}
 };
 
 template<typename T>
 class TPQueue {
-private:
-    Node<T>* head;
-
-public:
+ public:
     TPQueue() : head(nullptr) {}
     ~TPQueue() {
         while (!isEmpty()) pop();
@@ -67,4 +65,7 @@ public:
         }
         std::cout << std::endl;
     }
+
+ private:
+    Node<T>* head;
 };
