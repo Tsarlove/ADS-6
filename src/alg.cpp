@@ -8,7 +8,7 @@
 template<typename T, int Size>
 class TStack {
  private:
-  T arr[Size];
+  T arr[Size]{};  // Инициализация массива для устранения предупреждения cppcheck
   int topIndex;
 
  public:
@@ -58,7 +58,7 @@ std::string infx2pstfx(const std::string& inf) {
         stack.pop();
       }
       if (!stack.empty()) stack.pop();
-    } else if (inf[i] == '+' || inf[i] == '-' || inf[i] == '*' || inf[i] == '/') {
+    } else if (inf[i] == '+'  inf[i] == '-'  inf[i] == '*' || inf[i] == '/') {
       while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
         res += stack.top();
         res += ' ';
@@ -112,7 +112,7 @@ template <typename T>
 class TPQueue {
  private:
   static const int SIZE = 100;
-  T data[SIZE];
+  T data[SIZE]{};  // Инициализация массива для cppcheck
   int count;
 
  public:
@@ -142,12 +142,3 @@ class TPQueue {
     return data[count - 1];
   }
 };
-
-int main() {
-  TPQueue<SYM> pqueue;
-  pqueue.push(SYM('a', 4));
-  pqueue.push(SYM('b', 7));
-  SYM c1 = pqueue.pop();
-  SYM c2 = pqueue.pop();
-  return c1.ch + c2.ch;
-}
