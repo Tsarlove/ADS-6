@@ -82,3 +82,45 @@ int main() {
     std::cout << std::endl;
     return 0;
 }
+
+struct SYM {
+  char ch;
+  int prior;
+
+  SYM(char c = 0, int p = 0) : ch(c), prior(p) {}
+};
+
+template <typename T>
+class TPQueue {
+ private:
+  static const int SIZE = 100;
+  T data[SIZE];
+  int count;
+
+ public:
+  TPQueue() : count(0) {}
+
+  void push(const T& val) {
+    int i = count - 1;
+    while (i >= 0 && val.prior >= data[i].prior) {
+      data[i + 1] = data[i];
+      --i;
+    }
+    data[i + 1] = val;
+    ++count;
+  }
+
+  T pop() {
+    if (count == 0) throw std::out_of_range("Queue is empty");
+    return data[--count];
+  }
+
+  bool isEmpty() const {
+    return count == 0;
+  }
+
+  T top() const {
+    if (count == 0) throw std::out_of_range("Queue is empty");
+    return data[count - 1];
+  }
+};
