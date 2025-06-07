@@ -2,6 +2,35 @@
 #include <string>
 #include <sstream>
 #include <cctype>
+#include <stdexcept>
+
+// Простая реализация шаблонного стека
+template<typename T, int size>
+class TStack {
+ private:
+  T arr[size];
+  int topIndex;
+
+ public:
+  TStack() : topIndex(-1) {}
+
+  void push(const T& val) {
+    if (topIndex < size - 1) arr[++topIndex] = val;
+  }
+
+  void pop() {
+    if (topIndex >= 0) --topIndex;
+  }
+
+  T top() const {
+    if (topIndex >= 0) return arr[topIndex];
+    throw std::out_of_range("stack is empty");
+  }
+
+  bool empty() const {
+    return topIndex == -1;
+  }
+};
 
 int priority(char op) {
   if (op == '+' || op == '-') return 1;
