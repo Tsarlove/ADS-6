@@ -1,7 +1,5 @@
 // Copyright 2021 NNTU-CS
 
-#pragma once
-
 #include <iostream>
 
 struct SYM {
@@ -11,7 +9,7 @@ struct SYM {
 
 template<typename T>
 struct Node {
-    explicit Node(const T& d) : data(d), next(nullptr) {}  // explicit constructor
+    explicit Node(const T& d) : data(d), next(nullptr) {}  
     T data;
     Node* next;
 };
@@ -32,7 +30,8 @@ class TPQueue {
             head = newNode;
         } else {
             Node<T>* current = head;
-            while (current->next && current->next->data.prior >= value.prior) {
+            while (current->next && 
+                current->next->data.prior >= value.prior) {
                 current = current->next;
             }
             newNode->next = current->next;
@@ -60,7 +59,8 @@ class TPQueue {
     void print() const {
         Node<T>* current = head;
         while (current) {
-            std::cout << current->data.ch << "(" << current->data.prior << ") ";
+            std::cout << current->data.ch << "(" 
+                << current->data.prior << ") ";
             current = current->next;
         }
         std::cout << std::endl;
