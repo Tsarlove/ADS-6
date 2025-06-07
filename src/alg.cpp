@@ -59,8 +59,7 @@ std::string infx2pstfx(const std::string& inf) {
       }
       if (!stack.empty()) stack.pop();
     } else if (inf[i] == '+' || inf[i] == '-' || inf[i] == '*' || inf[i] == '/') {
-      while (!stack.empty() &&
-             priority(stack.top()) >= priority(inf[i])) {
+      while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
         res += stack.top();
         res += ' ';
         stack.pop();
@@ -82,11 +81,13 @@ int eval(const std::string& post) {
   std::istringstream iss(post);
   std::string token;
   while (iss >> token) {
-    if (isdigit(token[0])) {
+    if (isdigit(token[0]) || (token[0] == '-' && token.size() > 1)) {
       stack.push(std::stoi(token));
     } else {
-      int b = stack.top(); stack.pop();
-      int a = stack.top(); stack.pop();
+      int b = stack.top();
+      stack.pop();
+      int a = stack.top();
+      stack.pop();
       switch (token[0]) {
         case '+': stack.push(a + b); break;
         case '-': stack.push(a - b); break;
@@ -102,8 +103,8 @@ struct SYM {
   char ch;
   int prior;
 
-  SYM() : ch('\0'), prior(0) {}  // Добавлен конструктор по умолчанию
-  SYM(char c) : ch(c), prior(0) {}
+  SYM() : ch('\0'), prior(0) {}
+  explicit SYM(char c) : ch(c), prior(0) {}
   SYM(char c, int p) : ch(c), prior(p) {}
 };
 
@@ -148,5 +149,5 @@ int main() {
   pqueue.push(SYM('b', 7));
   SYM c1 = pqueue.pop();
   SYM c2 = pqueue.pop();
-  return c1.ch + c2.ch; // используем переменные, чтобы убрать предупреждение
+  return c1.ch + c2.ch;
 }
