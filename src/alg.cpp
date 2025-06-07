@@ -9,7 +9,7 @@ struct SYM {
 
 template<typename T>
 struct Node {
-    explicit Node(const T& d) : data(d), next(nullptr) {}  
+    explicit Node(const T& d) : data(d), next(nullptr) {}
     T data;
     Node* next;
 };
@@ -58,8 +58,7 @@ class TPQueue {
     void print() const {
         Node<T>* current = head;
         while (current) {
-            std::cout << current->data.ch << "("
-                      << current->data.prior << ") ";
+            std::cout << current->data.ch << "(" << current->data.prior << ") ";
             current = current->next;
         }
         std::cout << std::endl;
@@ -68,3 +67,18 @@ class TPQueue {
  private:
     Node<T>* head;
 };
+
+int main() {
+    TPQueue<SYM> pqueue;
+    pqueue.push({'a', 4});
+    pqueue.push({'b', 7});
+    pqueue.push({'c', 1});
+
+    while (!pqueue.isEmpty()) {
+        SYM c = pqueue.front();
+        std::cout << c.ch << "(" << c.prior << ") ";
+        pqueue.pop();
+    }
+    std::cout << std::endl;
+    return 0;
+}
