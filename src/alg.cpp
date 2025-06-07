@@ -30,7 +30,7 @@ std::string infx2pstfx(const std::string& inf) {
         stack.pop();
       }
       if (!stack.empty()) stack.pop();
-    } else if (inf[i] == '+'  inf[i] == '-'  inf[i] == '*' || inf[i] == '/') {
+    } else if (inf[i] == '+' || inf[i] == '-' || inf[i] == '*' || inf[i] == '/') {
       while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
         res += stack.top();
         res += ' ';
