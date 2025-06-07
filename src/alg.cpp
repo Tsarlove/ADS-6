@@ -2,7 +2,6 @@
 #include <string>
 #include <sstream>
 #include <cctype>
-#include "tstack.h"
 
 int priority(char op) {
   if (op == '+' || op == '-') return 1;
@@ -31,7 +30,8 @@ std::string infx2pstfx(const std::string& inf) {
       }
       if (!stack.empty()) stack.pop();
     } else if (inf[i] == '+' || inf[i] == '-' || inf[i] == '*' || inf[i] == '/') {
-      while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
+      while (!stack.empty() &&
+             priority(stack.top()) >= priority(inf[i])) {
         res += stack.top();
         res += ' ';
         stack.pop();
