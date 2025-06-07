@@ -1,93 +1,80 @@
-// Copyright 2021 NNTU-CS
+// Copyright 2025 NNTU-CS
+#include <string>
+#include <sstream>
+#include <cctype>
+#include "tstack.h"
 
-#include <iostream>
+int priority(char op) {
+  if (op == '+' || op == '-') return 1;
+  if (op == '*' || op == '/') return 2;
+  return 0;
+}
 
-struct SYM {
-    char ch;
-    int prior;
-};
-
-template<typename T>
-struct Node {
-    explicit Node(const T& d) : data(d), next(nullptr) {}
-    T data;
-    Node* next;
-};
-
-template<typename T>
-class TPQueue {
- public:
-    TPQueue() : head(nullptr) {}
-    ~TPQueue() {
-        while (!isEmpty()) pop();
+std::string infx2pstfx(const std::string& inf) {
+  TStack<char, 100> stack;
+  std::string res;
+  for (size_t i = 0; i < inf.size(); ++i) {
+    if (isdigit(inf[i])) {
+      while (i < inf.size() && isdigit(inf[i])) {
+        res += inf[i];
+        ++i;
+      }
+      res += ' ';
+      --i;
+    } else if (inf[i] == '(') {
+      stack.push('(');
+    } else if (inf[i] == ')') {
+      while (!stack.empty() && stack.top() != '(') {
+        res += stack.top();
+        res += ' ';
+        stack.pop();
+      }
+      if (!stack.empty()) stack.pop();
+    } else if (inf[i] == '+'  inf[i] == '-'  inf[i] == '*' || inf[i] == '/') {
+      while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
+        res += stack.top();
+        res += ' ';
+        stack.pop();
+      }
+      stack.push(inf[i]);
     }
+  }
+  while (!stack.empty()) {
+    res += stack.top();
+    res += ' ';
+    stack.pop();
+  }
+  if (!res.empty() && res.back() == ' ') res.pop_back();
+  return res;
+}
 
-    void push(const T& value) {
-        Node<T>* newNode = new Node<T>(value);
-
-        if (!head || value.prior > head->data.prior) {
-            newNode->next = head;
-            head = newNode;
-        } else {
-            Node<T>* current = head;
-            while (current->next && current->next->data.prior >= value.prior) {
-                current = current->next;
-            }
-            newNode->next = current->next;
-            current->next = newNode;
-        }
+int eval(const std::string& post) {
+  TStack<int, 100> stack;
+  std::istringstream iss(post);
+  std::string token;
+  while (iss >> token) {
+    if (isdigit(token[0])) {
+      stack.push(std::stoi(token));
+    } else {
+      int b = stack.top(); stack.pop();
+      int a = stack.top(); stack.pop();
+      switch (token[0]) {
+        case '+': stack.push(a + b); break;
+        case '-': stack.push(a - b); break;
+        case '*': stack.push(a * b); break;
+        case '/': stack.push(a / b); break;
+      }
     }
-
-    void pop() {
-        if (head) {
-            Node<T>* temp = head;
-            head = head->next;
-            delete temp;
-        }
-    }
-
-    const T& front() const {
-        if (!head) throw std::runtime_error("Queue is empty");
-        return head->data;
-    }
-
-    bool isEmpty() const {
-        return head == nullptr;
-    }
-
-    void print() const {
-        Node<T>* current = head;
-        while (current) {
-            std::cout << current->data.ch << "(" << current->data.prior << ") ";
-            current = current->next;
-        }
-        std::cout << std::endl;
-    }
-
- private:
-    Node<T>* head;
-};
-
-int main() {
-    TPQueue<SYM> pqueue;
-    pqueue.push({'a', 4});
-    pqueue.push({'b', 7});
-    pqueue.push({'c', 1});
-
-    while (!pqueue.isEmpty()) {
-        SYM c = pqueue.front();
-        std::cout << c.ch << "(" << c.prior << ") ";
-        pqueue.pop();
-    }
-    std::cout << std::endl;
-    return 0;
+  }
+  return stack.top();
 }
 
 struct SYM {
-  char ch;
-  int prior;
+  char ch{};
+  int prior{};
 
-  SYM(char c = 0, int p = 0) : ch(c), prior(p) {}
+  explicit SYM(char c) : ch(c), prior(0) {}
+  SYM(char c, int p) : ch(c), prior(p) {}
 };
 
 template <typename T>
