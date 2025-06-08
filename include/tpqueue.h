@@ -1,6 +1,6 @@
 // Copyright 2025 NNTU-CS
-#ifndef TPQUEUE_H_
-#define TPQUEUE_H_
+#ifndef INCLUDE_TPQUEUE_H_
+#define INCLUDE_TPQUEUE_H_
 
 #include <stdexcept>
 
@@ -60,5 +60,5 @@ class TPQueue {
   }
 };
 
-#endif  // TPQUEUE_H_
+#endif  // INCLUDE_TPQUEUE_H_
 
