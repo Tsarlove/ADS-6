@@ -51,6 +51,15 @@ class TPQueue {
     return result;
   }
 
+  bool isEmpty() const {
+    return head == nullptr;
+  }
+
+  T top() const {
+    if (!head) throw std::out_of_range("Queue is empty");
+    return head->data;
+  }
+
   ~TPQueue() {
     while (head) {
       Node* temp = head;
