@@ -3,6 +3,7 @@
 #include <sstream>
 #include <cctype>
 #include <stdexcept>
+#include "tpqueue.h"
 
 template<typename T, int Size>
 class TStack {
@@ -98,15 +99,6 @@ int eval(const std::string& post) {
   }
   return stack.top();
 }
-
-struct SYM {
-  char ch;
-  int prior;
-
-  SYM() : ch('\0'), prior(0) {}
-  explicit SYM(char c) : ch(c), prior(0) {}
-  SYM(char c, int p) : ch(c), prior(p) {}
-};
 
 template <typename T>
 class TPQueue {
