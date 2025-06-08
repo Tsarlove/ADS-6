@@ -4,11 +4,10 @@
 #include <cctype>
 #include <stdexcept>
 
-// Простая реализация шаблонного стека
 template<typename T, int Size>
 class TStack {
  private:
-  T arr[Size]{};  // Инициализация массива для устранения предупреждения cppcheck
+  T arr[Size]{}; 
   int topIndex;
 
  public:
@@ -58,7 +57,8 @@ std::string infx2pstfx(const std::string& inf) {
         stack.pop();
       }
       if (!stack.empty()) stack.pop();
-    } else if (inf[i] == '+' || inf[i] == '-' || inf[i] == '*' || inf[i] == '/') {
+    } else if (inf[i] == '+' || inf[i] == '-' ||
+     inf[i] == '*' || inf[i] == '/') {
       while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
         res += stack.top();
         res += ' ';
