@@ -9,7 +9,7 @@ struct SYM {
   int prior;
 
   SYM() : ch('\0'), prior(0) {}
-  explicit SYM(char c) : ch(c), prior(0) {}
+  explicit SYM(char c) : ch(c), prior(0) {} 
   SYM(char c, int p) : ch(c), prior(p) {}
 };
 
