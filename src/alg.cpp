@@ -59,7 +59,7 @@ std::string infx2pstfx(const std::string& inf) {
       }
       if (!stack.empty()) stack.pop();
     } else if (inf[i] == '+' || inf[i] == '-' ||
-     inf[i] == '*' || inf[i] == '/') {
+               inf[i] == '*' || inf[i] == '/') {
       while (!stack.empty() && priority(stack.top()) >= priority(inf[i])) {
         res += stack.top();
         res += ' ';
@@ -99,38 +99,3 @@ int eval(const std::string& post) {
   }
   return stack.top();
 }
-
-template <typename T>
-class TPQueue {
- private:
-  static const int SIZE = 100;
-  T data[SIZE]{};  // Инициализация массива для cppcheck
-  int count;
-
- public:
-  TPQueue() : count(0) {}
-
-  void push(const T& val) {
-    int i = count - 1;
-    while (i >= 0 && val.prior >= data[i].prior) {
-      data[i + 1] = data[i];
-      --i;
-    }
-    data[i + 1] = val;
-    ++count;
-  }
-
-  T pop() {
-    if (count == 0) throw std::out_of_range("Queue is empty");
-    return data[--count];
-  }
-
-  bool isEmpty() const {
-    return count == 0;
-  }
-
-  T top() const {
-    if (count == 0) throw std::out_of_range("Queue is empty");
-    return data[count - 1];
-  }
-};
